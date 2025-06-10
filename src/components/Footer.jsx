@@ -1,13 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import dvalogo1 from'../assets/dvalogo1.png'
+
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800   py-10 pt-28 px-4">
+    <footer className="bg-gray-800 py-10 pt-10 px-4">
        
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        <div>
-          <h2 className="text-xl font-semibold mb-3 text-[#ddcb7f]">DVA</h2>
+        <div className='flex flex-col items-center sm:items-start'>
+          {/* <h2 className="text-xl font-semibold mb-3 text-[#ddcb7f]">DVA</h2> */}
+          <img width={'100'} src={dvalogo1} alt="" className='mb-5' />
           <p className="text-sm text-white">
             Where Comfort Meets Confidence. Premium innerwear designed for elegance and ease.
           </p>

@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 const About = () => {
   return (
     <>
-      <div className="bg-[#221f2e] text-white min-h-screen pt-16 pb-10 px-4">
+      <div className="bg-[#221f2e] text-white min-h-auto pt-16 pb-10 px-4">
         <motion.div
           className="text-center mb-10"
           initial={{ opacity: 0, y: 40 }}
@@ -38,7 +38,7 @@ const About = () => {
             transition={{ delay: 0.5, duration: 0.7, type: "spring" }}
           >
             <img
-              src="https://sp.yimg.com/ib/th?id=OIP.cMvfj6nLd4W-8gu5ZoY--QHaHa&pid=Api"
+              src="https://images.pexels.com/photos/5490974/pexels-photo-5490974.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
               alt="About DVA"
               className="w-full rounded-lg shadow-lg object-cover"
             />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { editProductApi } from "../../services/allApi";
+import { editProductApi, getAllCategoryApi } from "../../services/allApi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -13,8 +13,10 @@ const EditProductModal = ({ isOpen, onClose, product }) => {
   });
 
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [newImages, setNewImages] = useState([]);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     if (product) {
@@ -26,6 +28,7 @@ const EditProductModal = ({ isOpen, onClose, product }) => {
         sizes: product.sizes || [],
       });
       setImagePreviews(product.images || []);
+      setNewImages([]);
     }
   }, [product]);
 
@@ -44,6 +47,13 @@ const EditProductModal = ({ isOpen, onClose, product }) => {
     setProductDetails({ ...productDetails, [type]: updated });
   };
 
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    setNewImages(files);
+    const previews = files.map(file => URL.createObjectURL(file));
+    setImagePreviews(previews);
+  };
+
   const validate = () => {
     let tempErrors = {};
     if (!productDetails.name.trim()) tempErrors.name = "Name is required";
@@ -51,7 +61,6 @@ const EditProductModal = ({ isOpen, onClose, product }) => {
     if (!productDetails.category.trim()) tempErrors.category = "Category is required";
     if (productDetails.colors.length === 0) tempErrors.colors = "Select at least one color";
     if (productDetails.sizes.length === 0) tempErrors.sizes = "Select at least one size";
-
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -61,7 +70,6 @@ const EditProductModal = ({ isOpen, onClose, product }) => {
     if (!validate()) return;
 
     setLoading(true);
-
     const formData = new FormData();
     formData.append("name", productDetails.name);
     formData.append("price", productDetails.price);
@@ -73,6 +81,9 @@ const EditProductModal = ({ isOpen, onClose, product }) => {
     (productDetails.sizes || []).forEach((size) =>
       formData.append("sizes", size)
     );
+    (newImages || []).forEach((file) =>
+      formData.append("images", file)
+    );
 
     try {
       const token = localStorage.getItem("token");
@@ -82,20 +93,37 @@ const EditProductModal = ({ isOpen, onClose, product }) => {
       };
 
       await editProductApi(product._id, formData, headers);
-      // Keep loader visible for a short time before hiding
       setTimeout(() => {
         setLoading(false);
         toast.success("Product updated successfully!");
         setTimeout(() => {
           onClose();
-        }, 1800); // Show toast before closing modal
-      }, 1200); // Loader stays visible for 1.2s after API response
+        }, 1800);
+      }, 1200);
     } catch (err) {
       setLoading(false);
       toast.error("Failed to update product. Please try again.");
       console.error("Edit product error:", err);
     }
   };
+
+   // for category dropdown
+    useEffect(() => {
+      const fetchCategories = async () => {
+        try {
+          const res = await getAllCategoryApi();
+          if (res.status === 200) {
+            setCategories(res.data); // assuming data is an array of category objects
+          }
+        } catch (error) {
+          console.error("Error fetching categories:", error);
+        }
+      };
+  
+      if (isOpen) {
+        fetchCategories();
+      }
+    }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -137,16 +165,23 @@ const EditProductModal = ({ isOpen, onClose, product }) => {
             />
             {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
           </div>
-
+          
+          {/* category */}
           <div>
             <label className="block text-sm mb-1">Category <span className="text-red-500">*</span></label>
-            <input
+            <select
               name="category"
-              type="text"
               value={productDetails.category}
               onChange={handleInputChange}
               className={`w-full px-3 py-2 bg-[#1f1f1f] border rounded-md focus:ring-[#F5DEB3] ${errors.category ? "border-red-500" : "border-gray-700"}`}
-            />
+            >
+              <option value="">Select category</option>
+              {
+                categories.map((item)=>(
+                  <option key={item._id} value={item.name}>{item.name}</option>
+                ))
+              }
+            </select>
             {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category}</p>}
           </div>
 
@@ -188,17 +223,27 @@ const EditProductModal = ({ isOpen, onClose, product }) => {
             {errors.sizes && <p className="text-red-500 text-xs mt-1">{errors.sizes}</p>}
           </div>
 
-          <div className="mt-2 flex gap-2 flex-wrap">
+          {/* <div>
+            <label className="block text-sm mb-1">Product Images</label>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handleImageChange}
+              className="text-sm text-gray-300 file:bg-[#1f1f1f] file:border file:border-[#F5DEB3] file:rounded file:px-3 file:py-1 file:text-[#F5DEB3] file:cursor-pointer"
+            />
+          </div> */}
+
+          {/* <div className="mt-2 flex gap-2 flex-wrap">
             {imagePreviews.map((src, index) => (
               <img
                 key={index}
                 src={src}
                 alt={`preview-${index}`}
-                className="w-28 h-28 object-cover rounded border cursor-not-allowed"
-                title="Image can't be changed"
+                className="w-28 h-28 object-cover rounded border"
               />
             ))}
-          </div>
+          </div> */}
 
           <div className="flex justify-end gap-3 pt-4">
             <button

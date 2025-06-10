@@ -7,7 +7,7 @@ import { getProductByIdApi } from "../services/allApi";
 const ProductDetail = () => {
   const { id } = useParams();
   const [selectedSize, setSelectedSize] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
+  // const [selectedColor, setSelectedColor] = useState("");
   const [formTouched, setFormTouched] = useState(false);
   const [showSizeChart, setShowSizeChart] = useState(false);
   const [product, setProduct] = useState(null);
@@ -27,6 +27,8 @@ const ProductDetail = () => {
       if (result.status >= 200 && result.status < 300) {
         const data = result.data;
         setProduct(data);
+        console.log(data);
+        
         if (data.image && data.image.length > 0) {
           setMainImage(data.image[0]);
         }
@@ -46,7 +48,9 @@ const ProductDetail = () => {
   //   { name: "Green", value: "#22c55e" },
   // ];
 
-  const availableSizes = product?.availableSizes || sizes;
+  const availableSizes = product?.sizes ;
+  console.log("available sizes: ",availableSizes);
+  
   // const availableColors = product?.availableColors || colors.map((c) => c.value);
 
   // const selectedColorName = colors.find((c) => c.value === selectedColor)?.name || "";
@@ -75,9 +79,11 @@ const ProductDetail = () => {
 
   const handleBuyNow = () => {
     setFormTouched(true);
-    if (!selectedSize ) return;
+    if (!selectedSize) return;
     const message = `Hi, I'm interested in buying:\nProduct: ${product.name}\nColor: ${selectedColorName}\nSize: ${selectedSize}\nImage: ${mainImage}`;
-    const url = `https://wa.me/917356379172?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/917356379172?text=${encodeURIComponent(
+      message
+    )}`;
     window.open(url, "_blank");
   };
 
@@ -110,7 +116,9 @@ const ProductDetail = () => {
   }
 
   if (!product) {
-    return <div className="text-white text-center mt-20">Product not found.</div>;
+    return (
+      <div className="text-white text-center mt-20">Product not found.</div>
+    );
   }
 
   return (
@@ -163,7 +171,7 @@ const ProductDetail = () => {
             {product.name}
           </h2>
           <p className="text-sm md:text-base">{product.description}</p>
-          <p className="text-lg font-semibold mt-3">MRP: ₹ {product.price}</p>
+          <p className="text-lg font-semibold mt-3">AD:  {product.price}</p>
           <p className="text-sm mb-4">Inclusive of all taxes</p>
 
           {/* Size */}
@@ -177,30 +185,42 @@ const ProductDetail = () => {
                 size chart <i className="fa-solid fa-angle-right"></i>
               </button>
             </div>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {sizes.map((size) => {
-                const isAvailable = availableSizes.includes(size);
-                return (
-                  <motion.button
-                    whileTap={{ scale: isAvailable ? 0.95 : 1 }}
-                    key={size}
-                    onClick={() => handleSizeClick(size)}
-                    disabled={!isAvailable}
-                    className={`px-4 py-2 text-sm border rounded ${
-                      selectedSize === size
-                        ? "border-[#ddcb7f] bg-black text-white"
-                        : isAvailable
-                        ? "border-gray-300 hover:bg-gray-100 cursor-pointer"
-                        : "border-red-400 text-red-500 cursor-not-allowed"
-                    }`}
-                  >
-                    {size}
-                  </motion.button>
-                );
-              })}
-            </div>
+      <div className="flex flex-wrap gap-2 mt-2">
+  {sizes.map((size) => {
+    const isAvailable = availableSizes.includes(size);
+    const isSelected = selectedSize === size;
+
+    return (
+      <motion.div
+        key={size}
+        className="relative"
+        whileTap={{ scale: isAvailable ? 0.95 : 1 }}
+      >
+        <button
+          onClick={() => handleSizeClick(size)}
+          disabled={!isAvailable}
+          className={`px-2  py-3 text-sm border rounded-lg w-12 h-10 relative transition-all duration-200
+            ${isSelected ? "bg-white text-black border-[#ddcb7f]" : "bg-black text-white border-gray-300"}
+            ${!isAvailable ? "opacity-50 cursor-not-allowed" : "hover:opacity-90 cursor-pointer"}`}
+        >
+          {size}
+          {!isAvailable && (
+            <span className="absolute -top-1 -right-1 text-[10px] px-1 py-[1px] rounded bg-red-600 text-white font-medium">
+              sold
+            </span>
+          )}
+        </button>
+      </motion.div>
+    );
+  })}
+</div>
+
+
+
             {!selectedSize && formTouched && (
-              <p className="text-sm text-red-500 mt-1">Size selection is required.</p>
+              <p className="text-sm text-red-500 mt-1">
+                Size selection is required.
+              </p>
             )}
           </div>
 
@@ -239,13 +259,15 @@ const ProductDetail = () => {
 
           {/* Temporary message for unavailable clicks */}
           {msg && (
-            <p className="text-yellow-400 font-semibold mb-4 select-none">{msg}</p>
+            <p className="text-yellow-400 font-semibold mb-4 select-none">
+              {msg}
+            </p>
           )}
 
           {/* Buy Button */}
           <div className="flex mt-6">
-            <motion.button 
-            style={{fontFamily:'Poppins, sans-serif'}}
+            <motion.button
+              style={{ fontFamily: "Poppins, sans-serif" }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
               className="flex items-center gap-2 bg-white border text-black  px-16 py-3 rounded-lg font-semibold shadow hover:bg-[#ddcb7f] transition disabled:opacity-60"

@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import Footer from "../components/Footer";
 import { getPrintedProductsApi, getSolidProductsApi } from "../services/allApi";
 import About from "./About";
+import Testimonials from "./Testimonials";
+import InTouch from "./InTouch";
 
 const Home = () => {
   const [selected, setSelected] = useState("printed");
@@ -192,7 +194,7 @@ const Home = () => {
                     alt={product.name || "Product image"}
                   />
                   <p>{product?.name}</p>
-                  <p>${product.price?.toFixed(2) || "N/A"}</p>
+                  <p>AD {product.price?.toFixed(2) || "N/A"}</p>
                 </motion.div>
               ))
             )
@@ -270,6 +272,10 @@ const Home = () => {
         </motion.p>
 
         <About />
+
+        <Testimonials/>
+
+        <InTouch/>
       </div>
     </>
   );

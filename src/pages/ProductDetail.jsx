@@ -38,18 +38,18 @@ const ProductDetail = () => {
   };
 
   const sizes = ["S", "M", "L", "XL", "XXL", "3XL"];
-  const colors = [
-    { name: "Black", value: "#222" },
-    { name: "White", value: "#fff" },
-    { name: "Red", value: "#e11d48" },
-    { name: "Blue", value: "#2563eb" },
-    { name: "Green", value: "#22c55e" },
-  ];
+  // const colors = [
+  //   { name: "Black", value: "#222" },
+  //   { name: "White", value: "#fff" },
+  //   { name: "Red", value: "#e11d48" },
+  //   { name: "Blue", value: "#2563eb" },
+  //   { name: "Green", value: "#22c55e" },
+  // ];
 
   const availableSizes = product?.availableSizes || sizes;
-  const availableColors = product?.availableColors || colors.map((c) => c.value);
+  // const availableColors = product?.availableColors || colors.map((c) => c.value);
 
-  const selectedColorName = colors.find((c) => c.value === selectedColor)?.name || "";
+  // const selectedColorName = colors.find((c) => c.value === selectedColor)?.name || "";
 
   const showTempMessage = (text) => {
     setMsg(text);
@@ -105,7 +105,6 @@ const ProductDetail = () => {
             d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
           ></path>
         </svg>
-        <div className="text-white text-lg">Loading product...</div>
       </div>
     );
   }
@@ -192,7 +191,7 @@ const ProductDetail = () => {
                         ? "border-[#ddcb7f] bg-black text-white"
                         : isAvailable
                         ? "border-gray-300 hover:bg-gray-100 cursor-pointer"
-                        : "border-gray-400 text-gray-500 cursor-not-allowed"
+                        : "border-red-400 text-red-500 cursor-not-allowed"
                     }`}
                   >
                     {size}
@@ -245,13 +244,14 @@ const ProductDetail = () => {
 
           {/* Buy Button */}
           <div className="flex mt-6">
-            <motion.button
+            <motion.button 
+            style={{fontFamily:'Poppins, sans-serif'}}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
-              className="flex items-center gap-2 bg-white border text-black px-16 py-3 rounded-lg font-semibold shadow hover:bg-[#ddcb7f] transition disabled:opacity-60"
+              className="flex items-center gap-2 bg-white border text-black  px-16 py-3 rounded-lg font-semibold shadow hover:bg-[#ddcb7f] transition disabled:opacity-60"
               onClick={handleBuyNow}
             >
-              <i className="fa-brands fa-whatsapp text-2xl"></i>
+              <i className="fa-brands fa-whatsapp text-2xl text-green-500"></i>
               Buy Now
             </motion.button>
           </div>

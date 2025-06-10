@@ -139,8 +139,8 @@ const Products = () => {
             >
               <motion.img
                 src={item.image[0]}
-                alt={name}
-                className="w-full h-48 object-contain bg-white transition-transform duration-300 ease-in-out hover:scale-105"
+                alt={item.name}
+                className="w-full h-48 object-cover bg-white transition-transform duration-300 ease-in-out hover:scale-105"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{

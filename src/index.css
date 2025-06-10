@@ -10,11 +10,11 @@ html, body {
   padding: 0;
 }
 
-.img-section {
+/* .img-section {
    display: grid;
    grid-template-columns: repeat(4,1fr);
    padding: 5px;
-}
+} */
 
 .img-container {
    position: relative;
@@ -41,9 +41,9 @@ html, body {
 
 
 @media (max-width: 768px) {
-   .img-section {
+   /* .img-section {
       grid-template-columns: repeat(2,1fr);
-   }
+   } */
 
    .panties-title h2{
     padding:10px;
@@ -56,10 +56,10 @@ html, body {
 
 @media (max-width: 480px) {
 
-   .img-section {
+   /* .img-section {
       grid-template-columns: repeat(1,1fr);
       
-   }
+   } */
    
    .panties-title h2{
     padding:10px;

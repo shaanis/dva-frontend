@@ -11,7 +11,7 @@ const Home = () => {
   const [printed, setPrinted] = useState([]);
   const [solid, setSolid] = useState([]);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (selected === "printed") {
@@ -22,14 +22,12 @@ const Home = () => {
     }
   }, [selected]);
 
-  // get printed products
   const getPrintedProducts = async () => {
     setLoading(true);
     try {
       const result = await getPrintedProductsApi();
       if (result.status >= 200 && result.status < 300) {
         setPrinted(result.data);
-        console.log(result.data);
       }
     } catch (e) {
       console.error(e);
@@ -38,27 +36,24 @@ const Home = () => {
     setLoading(false);
   };
 
-  // get solid products
   const getSolidProducts = async () => {
     setLoading(true);
     try {
       const result = await getSolidProductsApi();
       if (result.status >= 200 && result.status < 300) {
         setSolid(result.data);
-        console.log(result.data);
       }
     } catch (e) {
       console.error(e);
-      setPrinted([]);
+      setSolid([]);
     }
     setLoading(false);
   };
 
-  const navigateToDetail=(id) => {
+  const navigateToDetail = (id) => {
     navigate(`/detail/${id}`);
-  }
+  };
 
-  // Animation variants for premium text effect
   const textVariant = {
     hidden: { opacity: 0, y: 40 },
     visible: (i = 1) => ({
@@ -73,7 +68,6 @@ const Home = () => {
     }),
   };
 
-  // Animation for images
   const imageVariant = {
     hidden: { opacity: 0, scale: 0.95 },
     visible: (i = 1) => ({
@@ -116,7 +110,7 @@ const Home = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, duration: 0.6, type: "spring" }}
         >
-          <Link className="btn text-[#c9b037] px-5 py-2 mt-10 border rounded border-[#c9b037]">
+          <Link to={'/shop'} className="btn text-[#c9b037] px-5 py-2 mt-10 border rounded border-[#c9b037] hover:bg-white">
             Shop Now
           </Link>
         </motion.div>
@@ -146,12 +140,32 @@ const Home = () => {
           </button>
         </motion.div>
 
-       
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 img-section mt-8 w-full max-w-6xl px-4 mb-15">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8 w-full max-w-6xl px-4 mb-15">
           {selected === "printed" ? (
+            // loading
             loading ? (
-              <p className="text-white col-span-full text-center">Loading...</p>
+              <div className="col-span-full flex justify-center items-center py-10">
+                <svg
+                  className="animate-spin h-8 w-8 text-[#F5DEB3]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"
+                  ></path>
+                </svg>
+              </div>
             ) : printed.length === 0 ? (
               <p className="text-white col-span-full text-center">
                 No products found
@@ -161,7 +175,7 @@ const Home = () => {
                 <motion.div
                   onClick={() => navigateToDetail(product._id)}
                   key={product._id || i}
-                  className="text-white img-container"
+                  className="text-white w-full max-w-[300px] sm:max-w-full mx-auto transform transition-transform duration-300 hover:scale-105 cursor-pointer"
                   variants={imageVariant}
                   initial="hidden"
                   animate="visible"
@@ -169,7 +183,7 @@ const Home = () => {
                   style={{ fontFamily: "Roboto, sans-serif" }}
                 >
                   <img
-                    className="w-full h-auto mb-2 transition-transform duration-300 ease-in-out hover:scale-105"
+                    className="w-[250px] h-[250px] object-cover mb-2"
                     src={
                       product.image?.[0] ||
                       product.image ||
@@ -177,13 +191,34 @@ const Home = () => {
                     }
                     alt={product.name || "Product image"}
                   />
-                  <p>Printed</p>
+                  <p>{product?.name}</p>
                   <p>${product.price?.toFixed(2) || "N/A"}</p>
                 </motion.div>
               ))
             )
           ) : loading ? (
-            <p className="text-white col-span-full text-center">Loading...</p>
+            <div className="col-span-full flex justify-center items-center py-10">
+                <svg
+                  className="animate-spin h-8 w-8 text-[#F5DEB3]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"
+                  ></path>
+                </svg>
+              </div>
           ) : solid.length === 0 ? (
             <p className="text-white col-span-full text-center">
               No products found
@@ -191,16 +226,17 @@ const Home = () => {
           ) : (
             solid.map((product, i) => (
               <motion.div
+                onClick={() => navigateToDetail(product._id)}
                 key={product._id || i}
-                className="text-white img-container"
-                style={{ fontFamily: "Roboto, sans-serif" }}
+                className="text-white w-full max-w-[300px] sm:max-w-full mx-auto transform transition-transform duration-300 hover:scale-105 cursor-pointer"
                 variants={imageVariant}
                 initial="hidden"
                 animate="visible"
                 custom={i + 1}
+                style={{ fontFamily: "Roboto, sans-serif" }}
               >
                 <img
-                  className="w-full h-auto mb-2 transition-transform duration-300 ease-in-out hover:scale-105"
+                  className="w-[250px] h-[250px] object-cover mb-2"
                   src={
                     product.image?.[0] ||
                     product.image ||
@@ -208,14 +244,14 @@ const Home = () => {
                   }
                   alt={product.name || "Product image"}
                 />
-                <p>Solid</p>
+                <p>{product?.name}</p>
                 <p>${product.price?.toFixed(2) || "N/A"}</p>
               </motion.div>
             ))
           )}
         </div>
 
-         <motion.h1
+        <motion.h1
           className="text-3xl text-[#ddcb7f] mt-8"
           style={{ fontFamily: "Playfair Display, serif" }}
           initial={{ opacity: 0, y: 20 }}
@@ -232,18 +268,9 @@ const Home = () => {
         >
           Quality. Comfort. Elegance.
         </motion.p>
-        {/* where comfort text */}
-        {/* <motion.p
-                    className="text-md text-gray-300"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.7, type: "spring" }}
-                  >
-                    Where Comfort Meets Confidence
-                  </motion.p> */}
-        <About/>
+
+        <About />
       </div>
-      {/* <Footer /> */}
     </>
   );
 };

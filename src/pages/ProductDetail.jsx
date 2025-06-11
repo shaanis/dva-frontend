@@ -80,7 +80,7 @@ const ProductDetail = () => {
   const handleBuyNow = () => {
     setFormTouched(true);
     if (!selectedSize) return;
-    const message = `Hi, I'm interested in buying:\nProduct: ${product.name}\nColor: ${selectedColorName}\nSize: ${selectedSize}\nImage: ${mainImage}`;
+    const message = `Hi, I'm interested in buying:\nProduct: ${product.name}\nSize: ${selectedSize}\nImage: ${mainImage}`;
     const url = `https://wa.me/917356379172?text=${encodeURIComponent(
       message
     )}`;

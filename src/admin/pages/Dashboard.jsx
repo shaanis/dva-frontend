@@ -16,8 +16,21 @@ const Dashboard = () => {
   const [showEditCategoryModal, setShowEditCategoryModal] = useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState(null);
   const [categoryLength, setCategoryLength] = useState([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const navigate = useNavigate();
+
+  // Check token on mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setShowLoginModal(true);
+      setTimeout(() => {
+        setShowLoginModal(false);
+        navigate("/login");
+      }, 2000);
+    }
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -105,6 +118,15 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#121212] text-white p-6 space-y-8">
+      {/* Login failed modal */}
+      {showLoginModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          <div className="bg-[#1a1a1a] p-8 rounded-lg shadow-xl text-white text-center">
+            <h2 className="text-2xl font-bold mb-4 text-red-400">Login Failed</h2>
+            <p className="mb-2">Please login again.</p>
+          </div>
+        </div>
+      )}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         <button

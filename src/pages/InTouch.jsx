@@ -11,7 +11,7 @@ const InTouch = () => {
         <div className="border-t border-[#ddcb7f] w-full"></div>
       </div>
 
-      <div className="bg-[#221f2e] text-white min-h-screen pb-5 px-4 sm:px-10 md:px-20 lg:px-32">
+      <div className="bg-[#221f2e] text-white min-h-auto pb-8 px-4 sm:px-10 md:px-20 lg:px-32">
         <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
           {/* Left Text */}
           <motion.div

@@ -247,7 +247,7 @@ const Home = () => {
                   alt={product.name || "Product image"}
                 />
                 <p>{product?.name}</p>
-                <p>${product.price?.toFixed(2) || "N/A"}</p>
+                <p>AED{product.price?.toFixed(2) || "N/A"}</p>
               </motion.div>
             ))
           )}

@@ -7,6 +7,7 @@ import { getPrintedProductsApi, getSolidProductsApi } from "../services/allApi";
 import About from "./About";
 import Testimonials from "./Testimonials";
 import InTouch from "./InTouch";
+import FAQSection from "./FAQSection";
 
 const Home = () => {
   const [selected, setSelected] = useState("printed");
@@ -275,7 +276,10 @@ const Home = () => {
 
         <Testimonials/>
 
+
         <InTouch/>
+
+         <FAQSection/>
       </div>
     </>
   );

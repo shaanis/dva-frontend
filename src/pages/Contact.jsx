@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 const Contact = () => {
   return (
     <>
-      <div className="bg-[#221f2e] text-white min-h-screen pt-16 pb-10 px-4">
+      <div className="bg-[#221f2e] text-white min-h-screen pt-28 pb-10 px-4">
         <motion.div
           className="text-center mb-10"
           initial={{ opacity: 0, y: 40 }}

@@ -1,1 +1,54 @@
 @import "tailwindcss";
+
+
+.parallax {
+  /* The image used */
+  background-image: url("https://img.freepik.com/free-photo/front-view-woman-posing-with-black-outfit_23-2151044534.jpg?uid=R118982562&ga=GA1.1.854928305.1691503741&semt=ais_hybrid&w=740");
+
+  /* Set a specific height */
+  min-height: 500px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* scrolling effect for why dva */
+
+.scroll-container {
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+  position: relative;
+  margin-top: 5px;
+  background-color: rgb(24, 82, 134);
+  padding: 10px;
+  
+}
+
+.scroll-track {
+  display: flex;
+  animation: scroll-left 12s linear infinite; /* Increased speed */
+}
+
+.scroll-text {
+  display: flex;
+}
+
+.scroll-text span {
+  margin-right: 2rem;
+  white-space: nowrap;
+  color: white;
+  font-size: 1rem;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

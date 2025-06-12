@@ -30,7 +30,7 @@ const Header = () => {
   }
 
   return (
-    <nav className="bg-gray-800 text-white p-4" ref={menuRef}>
+    <nav className="bg-gray-800 text-white p-4 top-0 fixed w-full z-10 " ref={menuRef}>
       <div className="flex justify-between items-center">
         <img width="50px" src={dvalogo} alt="DVA Logo" />
 

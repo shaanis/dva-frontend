@@ -7,6 +7,9 @@ export default defineConfig({
       animation: {
         fadeIn: "fadeIn 0.3s ease-out",
       },
+        backgroundImage: {
+      'hero-pattern': "url('/assets/hero-bg.jpg')",
+    },
       keyframes: {
         fadeIn: {
           "0%": { opacity: 0 },

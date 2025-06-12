@@ -9,6 +9,12 @@ import Testimonials from "./Testimonials";
 import InTouch from "./InTouch";
 import FAQSection from "./FAQSection";
 
+const words = [
+  "Quality.", "Comfort.", "Elegance.", "Craftsmanship.", "Luxury.", "Confidence.",
+  "Style.", "Timelessness.", "Detail.", "Innovation.", "Authenticity.", "Refinement.",
+  "Grace.", "Design.", "Versatility."
+];
+
 const Home = () => {
   const [selected, setSelected] = useState("printed");
   const [printed, setPrinted] = useState([]);
@@ -84,66 +90,71 @@ const Home = () => {
       },
     }),
   };
-
+const scrollingWords = [...words, ...words];
   return (
     <>
-      <div className="flex items-center flex-col pt-16 bg-[#221f2e] min-h-screen pb-5">
-        <motion.h2
-          className="sm:text-5xl text-[#c9b037] text-4xl mb-5"
-          style={{ fontFamily: "Playfair Display, serif" }}
-          variants={textVariant}
-          initial="hidden"
-          animate="visible"
-          custom={1}
-        >
-          Where Comfort
-        </motion.h2>
-        <motion.h2
-          className="sm:text-5xl text-[#c9b037] text-4xl mb-15"
-          style={{ fontFamily: "Playfair Display, serif" }}
-          variants={textVariant}
-          initial="hidden"
-          animate="visible"
-          custom={2}
-        >
-          Meets Confidence
-        </motion.h2>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.6, type: "spring" }}
-        >
-          <Link to={'/shop'} className="btn text-[#c9b037] px-5 py-2 mt-10 border rounded border-[#c9b037] hover:bg-white">
-            Shop Now
-          </Link>
-        </motion.div>
-
-        <motion.div
-          className="flex flex-row mt-24 panties-title justify-center gap-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.7, type: "spring" }}
-        >
-          <button
-            className={`flex-1 py-4 px-6 sm:py-5 sm:px-20 text-xl sm:text-3xl text-[#ddcb7f] focus:outline-none transition-colors rounded whitespace-nowrap ${
-              selected === "printed" ? "bg-[#6f2e0b]" : ""
-            }`}
-            onClick={() => setSelected("printed")}
+      <div className="flex items-center flex-col  bg-[#221f2e] min-h-screen pb-5 ">
+        <div className="parallax w-full flex flex-col items-center justify-center h-screen">
+          <motion.h2
+            className="sm:text-5xl text-[#c9b037] text-4xl mb-5"
+            style={{ fontFamily: "Playfair Display, serif" }}
+            variants={textVariant}
+            initial="hidden"
+            animate="visible"
+            custom={1}
           >
-            Printed Panties
-          </button>
-
-          <button
-            className={`flex-1 py-4 px-6 sm:py-5 sm:px-20 text-xl sm:text-3xl text-[#ddcb7f] focus:outline-none transition-colors rounded ${
-              selected === "solid" ? "bg-[#6f2e0b]" : ""
-            }`}
-            onClick={() => setSelected("solid")}
+            Where Comfort
+          </motion.h2>
+          
+          <motion.h2
+            className="sm:text-5xl text-[#c9b037] text-4xl mb-15"
+            style={{ fontFamily: "Playfair Display, serif" }}
+            variants={textVariant}
+            initial="hidden"
+            animate="visible"
+            custom={2}
           >
-            Solid Panties
-          </button>
-        </motion.div>
+            Meets Confidence
+          </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, duration: 0.6, type: "spring" }}
+          >
+            <Link to={'/shop'} className="btn text-[#c9b037] px-5 py-2 mt-10 border rounded border-[#c9b037] hover:bg-[#c9b037] hover:text-white">
+              Shop Now
+            </Link>
+          </motion.div>
+  
+          
+        </div>
+        {/* solid printed buttons */}
+        <motion.div
+            className="flex flex-row mt-24 panties-title justify-center gap-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.7, type: "spring" }}
+          >
+            <button
+              className={`flex-1 py-4 px-6 sm:py-5 sm:px-20 text-xl sm:text-3xl text-[#ddcb7f] focus:outline-none transition-colors rounded whitespace-nowrap ${
+                selected === "printed" ? "bg-[#6f2e0b]" : ""
+              }`}
+              onClick={() => setSelected("printed")}
+            >
+              Printed Panties
+            </button>
+  
+            <button
+              className={`flex-1 py-4 px-6 sm:py-5 sm:px-20 text-xl sm:text-3xl text-[#ddcb7f] focus:outline-none transition-colors rounded ${
+                selected === "solid" ? "bg-[#6f2e0b]" : ""
+              }`}
+              onClick={() => setSelected("solid")}
+            >
+              Solid Panties
+            </button>
+          </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8 w-full max-w-6xl px-4 mb-15">
+        <div className="grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8 w-full max-w-6xl px-4 mb-15">
           {selected === "printed" ? (
             // loading
             loading ? (
@@ -263,18 +274,33 @@ const Home = () => {
         >
           WHY DVA
         </motion.h1>
-        <motion.p
-          className="text-white text-md my-3"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.7, type: "spring" }}
-        >
-          Quality. Comfort. Elegance.
-        </motion.p>
+        {/* marquee words */}
+       <motion.div
+      className="scroll-container"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.2, duration: 0.7, type: "spring" }}
+    >
+      <div className="scroll-track">
+        {/* Two identical sets of text for perfect loop */}
+        <div className="scroll-text">
+          {words.map((word, index) => (
+            <span key={index}>{word}</span>
+          ))}
+        </div>
+        <div className="scroll-text">
+          {words.map((word, index) => (
+            <span key={`dup-${index}`}>{word}</span>
+          ))}
+        </div>
+      </div>
+    </motion.div>
 
         <About />
 
         <Testimonials/>
+
+        {/* <Slide/> */}
 
 
         <InTouch/>
